@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from user_management.models import Profile
+from django.core.validators import MinValueValidator
 
 PRODUCT_STATUS = (
     ('AVL', 'Available'),
@@ -43,6 +44,13 @@ class Product(models.Model):
     status = models.CharField(max_length=15,
                               choices=PRODUCT_STATUS,
                               default="AVL")
+    merch_image = models.ImageField(
+        upload_to='merchstore/',
+        null=True,
+        blank=True,
+    )
+    sale_percent = models.PositiveIntegerField(validators= [MinValueValidator(1)], null=True, blank=True)
+    sale_price = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
 
     def __str__(self):
         return self.name

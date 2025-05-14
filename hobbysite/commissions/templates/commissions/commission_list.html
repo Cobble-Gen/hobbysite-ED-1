@@ -2,46 +2,92 @@
 {% load static %}
 {% block title %}Commission App{% endblock %}
 {% block content %}
-<h1>🗣️ Commissions</h1>
 
-{% if request.user.is_authenticated %}
-<h3>Created:</h3>
-<ul>
+<div class="header">
+    <h1 class="header-brand">🗣️ Commissions</h1>
+</div>
 
-    {% for commission in createdCommissions %}
-    <li>
-        <a href={{commission.get_absolute_url}}>{{commission.title}}</a> - <b>{{commission.get_status_display}}</b>
-    </li>
-    {% endfor %}
-</ul>
-<h3>Applied:</h3>
-<ul>
-    {% for commission in appliedCommissions %}
-    <li>
-        <a href={{commission.get_absolute_url}}>{{commission.title}}</a> - <b>{{commission.get_status_display}}</b>
-    </li>
-    {% endfor %}
-</ul>
-{% endif %}
+<div class="container-fluid mx-0 app-content">
+    <div class="container">
+        {% if request.user.is_authenticated %}
+        <hr>
+        <h3 class="row category-header">Created:</h3>
+        <hr>
+        <ul class="mt-4 mb-5">
+
+            {% for commission in createdCommissions %}
+            <li class="row mb-3">
+                <a class="col-sm-10 btn btn-item" href={{commission.get_absolute_url}}>
+                    {{commission.title}} <br>
+
+                    <b>{{commission.get_status_display}}</b> <br>
+                    <p>{{commission.description}}</p>
+                </a> 
+            </li>
+            
+            {% endfor %}
+        </ul>
+        {% if request.user.is_authenticated %}
+        <div class="row mb-3">
+            <a class="col-sm-4 offset-4 btn btn-primary mt-5" href="{% url 'commissions:commission-add' %}"> Add Commission </a>
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="container">
+        <hr>
+        <h3 class="row category-header">Applied:</h3>
+        <hr>
+        <ul class="mt-4 mb-5">
+            {% for commission in appliedCommissions %}
+            <li class="row mb-3">
+                <a class="col-sm-10 btn btn-item" href={{commission.get_absolute_url}}>
+                    {{commission.title}} <br>
+
+                    <b>{{commission.get_status_display}}</b> <br>
+                    <p>{{commission.description}}</p>
+                </a>
+            </li>
+            
+            {% endfor %}
+        </ul>
 
 
-<h3>All:</h3>
-<ul>
-    {% for commission in object_list %}
-    <li>
-        <a href={{commission.get_absolute_url}}>{{commission.title}}</a> - <b>{{commission.get_status_display}}</b>
-    </li>
-    {% endfor %}
-</ul>
 
-    {% if request.user.is_authenticated %}
-<a href="{% url 'commissions:commission-add' %}"> Add Commission </a>
-    {% endif %}
+    </div>
 
-{% if request.user.is_authenticated %}
-<br>
-<a href="{% url 'user_management:profile' username=user.username %}">Go back to profile</a>
-{% endif %}
-<br>
-<a href="{% url 'main_interface:homepage'%}">Go back to homepage</a>
-{% endblock %}
+        {% endif %}
+
+    <div class="container">
+        <hr>
+        <div class="row">
+            <h3 class="category-header">All:</h3>
+        </div>
+        <hr>
+        <ul class="mt-4 mb-5">
+            {% for commission in object_list %}
+            <li class="row  mb-2">
+                <a class="col-sm-10 btn btn-item" href={{commission.get_absolute_url}}>
+                    {{commission.title}} <br>
+
+                    <b>{{commission.get_status_display}}</b> <br>
+                    <p>{{commission.description}}</p>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        <hr>
+    </div>
+        
+        
+    <div class="container">
+        {% if request.user.is_authenticated %}
+        <br>
+        <a class="btn btn-primary rounded-pill my-1" href="{% url 'user_management:profile' username=user.username %}">Go back to profile</a>
+        {% endif %}
+        <br>
+        <a class="btn btn-primary rounded-pill my-1" href="{% url 'main_interface:homepage'%}">Go back to homepage</a>
+
+    </div>
+    </div>
+    {% endblock %}
