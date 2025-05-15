@@ -38,19 +38,23 @@ class Product(models.Model):
                                     null=True,
                                     related_name="type")
     owner = models.ForeignKey(Profile,
-                              on_delete=models.CASCADE, null=True,
+                              on_delete=models.CASCADE, null=False,
                               related_name='products')
     stock = models.PositiveIntegerField()
     status = models.CharField(max_length=15,
                               choices=PRODUCT_STATUS,
                               default="AVL")
     merch_image = models.ImageField(
-        upload_to='merchstore/',
+        upload_to='images/merchstore/',
         null=True,
         blank=True,
     )
-    sale_percent = models.PositiveIntegerField(validators= [MinValueValidator(1)], null=True, blank=True)
-    sale_price = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
+    sale_percent = models.PositiveIntegerField(
+        validators=[MinValueValidator(1)], null=True, blank=True
+        )
+    sale_price = models.DecimalField(
+        decimal_places=2, max_digits=10, null=True, blank=True
+        )
 
     def __str__(self):
         return self.name

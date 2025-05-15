@@ -28,7 +28,7 @@ class Thread(models.Model):
         null=True
     )
     entry = models.TextField()
-    image = models.ImageField(upload_to='forum/images/', null=True, blank=True)
+    image = models.ImageField(upload_to='images/forum/', null=True, blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -56,6 +56,9 @@ class Comment(models.Model):
     entry = models.TextField(null=True)
     created_on = models.DateTimeField(auto_now_add=True, null=True)
     updated_on = models.DateTimeField(auto_now=True, null=True)
+
+    def __str__(self):
+        return f"Comment by {self.author} on {self.thread}"
 
     class Meta:
         ordering = ['created_on']
